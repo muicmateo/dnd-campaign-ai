@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini D&D</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="main-menu">
+        <h1>Welcome to Gemini D&D</h1>
+        <button id="creator-btn">Create a New Character</button>
+        <button id="adventure-btn">Start Adventure</button>
+    </div>
+
+    <div id="login-screen" class="hidden">
+        <h1>Login or Register</h1>
+        <p id="login-error" class="hidden"></p>
+        <div class="creator-step">
+            <label for="email-input">Email:</label>
+            <input type="email" id="email-input">
+        </div>
+        <div class="creator-step">
+            <label for="password-input">Password:</label>
+            <input type="password" id="password-input">
+        </div>
+        <button id="login-btn">Login</button>
+        <button id="creator-back-btn-from-login">Back to Main Menu</button>
+    </div>
+
+
+ </div>
+
+    <div id="adventure-setup" class="hidden">
+        <h1>Adventure Setup</h1>
+        <p>Describe the world you want to play in, or generate a new one.</p>
+        <textarea id="custom-world-input" placeholder="describe your ideal start..."></textarea>
+        <button id="start-custom-btn">Start in This World</button>
+        <p>— OR —</p>
+        <button id="start-random-btn">Generate a Random World</button>
+        <button id="back-to-menu-btn">Back to Main Menu</button>
+    </div>
+
+    <div id="creator-wizard" class="hidden">
+        <h1>Character Creator</h1>
+        <div class="creator-step">
+            <label for="race-select">Choose your Race:</label>
+            <select id="race-select">
+                <option>Loading races...</option>
+            </select>
+        </div>
+        <div class="creator-step">
+            <label for="class-select">Choose your Class:</label>
+            <select id="class-select">
+                <option>Loading classes...</option>
+            </select>
+        </div>
+        <button id="creator-back-btn">Back to Main Menu</button>
+    </div>
+    
+    <div id="game-container" class="hidden">
+        <h1 id="game-title">Gemini D&D Adventure</h1>
+        <div id="story-log">
+            </div>
+        <div id="input-area">
+            <input type="text" id="action-input" placeholder="What do you do?">
+            <button id="send-button">Send</button>
+            <div id="thinking-indicator" class="hidden"></div>
+        </div>
+    </div>
+    
+    <div id="dice-roller-ui" class="hidden">
+        <h3 id="roll-reason">Roll for: Dexterity Check</h3>
+        <div class="dice-controls">
+            <button id="roll-auto-btn">Roll d20</button>
+            <span>OR</span>
+            <input type="number" id="roll-manual-input" placeholder="Enter roll...">
+            <button id="roll-submit-btn">Submit</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

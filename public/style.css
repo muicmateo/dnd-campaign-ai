@@ -1,0 +1,328 @@
+body {
+    font-family: 'Georgia', serif;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#game-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+}
+
+h1 {
+    text-align: center;
+    color: #c8a2c8; /* Lilac */
+    border-bottom: 1px solid #444;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+#story-log {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #444;
+}
+
+.log-entry {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.log-entry.player {
+    color: #87ceeb; /* Sky Blue */
+    font-style: italic;
+}
+
+.log-entry.dm {
+    color: #e0e0e0;
+}
+
+#input-area {
+    display: flex;
+    padding: 1rem;
+}
+
+#action-input {
+    flex-grow: 1;
+    padding: 0.75rem;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+#send-button {
+    padding: 0.75rem 1.5rem;
+    margin-left: 0.5rem;
+    border: none;
+    background-color: #c8a2c8;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#send-button:hover {
+    background-color: #b38fb3;
+}
+
+/* --- NEW: Thinking Indicator Styles --- */
+
+#thinking-indicator {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+#thinking-indicator::before,
+#thinking-indicator::after {
+    content: '';
+    display: block;
+}
+
+#thinking-indicator,
+#thinking-indicator::before,
+#thinking-indicator::after {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #87ceeb; /* Sky Blue */
+    
+    /* Apply the animation */
+    animation-name: blink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+}
+
+#thinking-indicator::before {
+    margin-right: 6px;
+    animation-delay: 0.2s;
+}
+
+#thinking-indicator::after {
+    margin-left: 6px;
+    animation-delay: 0.4s;
+}
+
+/* The animation keyframes */
+@keyframes blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+/* Utility class to hide the element */
+.hidden {
+    display: none !important;
+}
+
+/* --- NEW: Main Menu Styles --- */
+
+#main-menu {
+    text-align: center;
+    background-color: #2a2a2a;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+#main-menu h1 {
+    color: #c8a2c8;
+    margin-bottom: 30px;
+}
+
+#main-menu button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #c8a2c8;
+    color: #1a1a1a;
+}
+
+#main-menu button:hover {
+    background-color: #b38fb3;
+}
+
+#dice-roller-ui {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1a1a1a;
+    border: 1px solid #c8a2c8;
+    border-radius: 8px;
+    padding: 15px 25px;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.4);
+    z-index: 100;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+#dice-roller-ui h3 {
+    margin: 0 0 15px 0;
+    color: #e0e0e0;
+}
+
+.dice-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.dice-controls span {
+    color: #888;
+    font-weight: bold;
+}
+
+#roll-manual-input {
+    width: 100px;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+#roll-auto-btn,
+#roll-submit-btn {
+    padding: 8px 16px;
+    border: none;
+    background-color: #87ceeb;
+    color: #1a1a1a;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#roll-auto-btn:hover,
+#roll-submit-btn:hover {
+    opacity: 0.9;
+}
+
+#adventure-setup {
+    text-align: center;
+    background-color: #2a2a2a;
+    padding: 20px 40px 40px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    width: 80%;
+    max-width: 600px;
+}
+
+#adventure-setup h1, #adventure-setup p {
+    color: #c8a2c8;
+}
+
+#adventure-setup p {
+    margin: 20px 0;
+}
+
+#adventure-setup textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+#adventure-setup button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+#start-custom-btn, #start-random-btn {
+    background-color: #87ceeb;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+#back-to-menu-btn {
+    background-color: #444;
+    color: #e0e0e0;
+    margin-top: 20px;
+}
+
+/* --- NEW: Creator Wizard Styles --- */
+
+#creator-wizard {
+    background-color: #2a2a2a;
+    padding: 20px 40px 40px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    width: 80%;
+    max-width: 500px;
+}
+
+#creator-wizard h1 {
+    text-align: center;
+    color: #c8a2c8;
+}
+
+.creator-step {
+    margin: 25px 0;
+}
+
+.creator-step label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    color: #e0e0e0;
+}
+
+.creator-step select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+#creator-back-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #444;
+    color: #e0e0e0;
+    margin-top: 20px;
+}
