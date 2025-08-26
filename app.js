@@ -55,35 +55,40 @@ const dndApiBaseUrl = 'https://dndapi.ashleysheridan.co.uk/api'; // D&D API base
 app.use(express.static('public'));
 app.use(express.json());
 
-// --- D&D API ENDPOINTS (NOW AUTHENTICATED) ---
-// This function will get the token from the frontend's request
-const getAuthHeaders = (req) => {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) throw new Error('Authorization token is missing');
-    return {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-    };
-};
-
-app.get('/api/dnd/races', async (req, res) => {
+// --- D&D API ENDPOINTS ---
+app.get('/api/characters/races', async (req, res) => {
     try {
-        const headers = getAuthHeaders(req);
-        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/races`, { headers });
+        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/races`);
         res.json(response.data);
     } catch (error) {
-        res.status(401).json({ error: 'Failed to fetch races: ' + error.message });
+        res.status(500).json({ error: 'Failed to fetch races: ' + error.message });
     }
 });
 
-app.get('/api/dnd/classes', async (req, res) => {
+app.get('/api/characters/classes', async (req, res) => {
     try {
-        const headers = getAuthHeaders(req);
-        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/classes`, { headers });
+        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/classes`);
         res.json(response.data);
     } catch (error) {
-        res.status(401).json({ error: 'Failed to fetch classes: ' + error.message });
+        res.status(500).json({ error: 'Failed to fetch classes: ' + error.message });
+    }
+});
+
+app.get('/api/characters/backgrounds', async (req, res) => {
+    try {
+        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/backgrounds`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch backgrounds: ' + error.message });
+    }
+});
+
+app.get('/api/characters/alignments', async (req, res) => {
+    try {
+        const response = await axios.get(`${DND_API_DOMAIN}/api/characters/alignments`);
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch alignments: ' + error.message });
     }
 });
 

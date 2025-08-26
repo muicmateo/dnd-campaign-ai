@@ -3,7 +3,6 @@ const mainMenu = document.getElementById('main-menu');
 const gameContainer = document.getElementById('game-container');
 const adventureSetup = document.getElementById('adventure-setup');
 const creatorWizard = document.getElementById('creator-wizard');
-const loginScreen = document.getElementById('login-screen');
 const storyLog = document.getElementById('story-log');
 const actionInput = document.getElementById('action-input');
 const sendButton = document.getElementById('send-button');
@@ -21,13 +20,10 @@ const startCustomBtn = document.getElementById('start-custom-btn');
 const startRandomBtn = document.getElementById('start-random-btn');
 const backToMenuBtn = document.getElementById('back-to-menu-btn');
 const creatorBackBtn = document.getElementById('creator-back-btn');
-const emailInput = document.getElementById('email-input');
-const passwordInput = document.getElementById('password-input');
-const loginBtn = document.getElementById('login-btn');
-const loginError = document.getElementById('login-error');
-const creatorBackBtnFromLogin = document.getElementById('creator-back-btn-from-login');
 const raceSelect = document.getElementById('race-select');
 const classSelect = document.getElementById('class-select');
+const backgroundSelect = document.getElementById('background-select');
+const alignmentSelect = document.getElementById('alignment-select');
 
 
 // --- API CONFIG ---
@@ -71,7 +67,6 @@ function showGameContainer(mode) {
     mainMenu.classList.add('hidden');
     adventureSetup.classList.add('hidden');
     creatorWizard.classList.add('hidden');
-    loginScreen.classList.add('hidden');
     gameContainer.classList.remove('hidden');
     actionInput.focus();
     if (mode === 'adventure') {
@@ -162,76 +157,67 @@ async function handleAction(userInput) {
     }
 }
 
-// --- AUTHENTICATION & CREATOR LOGIC ---
-async function handleLogin() {
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    loginError.classList.add('hidden');
-
-    try {
-        // NOTE: Login calls the external API directly from the browser, as it doesn't contain secrets.
-        const response = await fetch(`${DND_API_DOMAIN}/api/user/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
-        
-        const data = await response.json();
-        if (!response.ok) {
-            throw new Error(data.message || 'Login failed');
-        }
-
-        localStorage.setItem('dnd_token', data.token);
-        
-        loginScreen.classList.add('hidden');
-        creatorWizard.classList.remove('hidden');
-        populateRaces();
-        populateClasses();
-
-    } catch (error) {
-        loginError.textContent = error.message;
-        loginError.classList.remove('hidden');
-    }
-}
-
 async function populateRaces() {
     try {
-        const token = localStorage.getItem('dnd_token');
-        if (!token) throw new Error("Not logged in");
-        // This calls our own server, which then calls the D&D API with the token.
-        const response = await fetch('/api/dnd/races', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await fetch('/api/dnd/races');
         const data = await response.json();
         raceSelect.innerHTML = '<option value="">-- Select a Race --</option>';
-        data.forEach(race => {
+        data.results.forEach(race => {
             const option = document.createElement('option');
             option.value = race.id;
             option.textContent = race.name;
             raceSelect.appendChild(option);
         });
     } catch (error) {
-        raceSelect.innerHTML = `<option>${error.message}</option>`;
+        raceSelect.innerHTML = `<option>Failed to load races</option>`;
     }
 }
 
 async function populateClasses() {
      try {
-        const token = localStorage.getItem('dnd_token');
-        if (!token) throw new Error("Not logged in");
-        const response = await fetch('/api/dnd/classes', {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await fetch('/api/dnd/classes');
         const data = await response.json();
         classSelect.innerHTML = '<option value="">-- Select a Class --</option>';
-        data.forEach(dndClass => {
+        data.results.forEach(dndClass => {
             const option = document.createElement('option');
             option.value = dndClass.id;
             option.textContent = dndClass.name;
             classSelect.appendChild(option);
         });
     } catch (error) {
-        classSelect.innerHTML = `<option>${error.message}</option>`;
+        classSelect.innerHTML = `<option>Failed to load classes</option>`;
+    }
+}
+
+async function populateBackgrounds() {
+    try {
+        const response = await fetch('/api/dnd/backgrounds');
+        const data = await response.json();
+        backgroundSelect.innerHTML = '<option value="">-- Select a Background --</option>';
+        data.results.forEach(background => {
+            const option = document.createElement('option');
+            option.value = background.id;
+            option.textContent = background.name;
+            backgroundSelect.appendChild(option);
+        });
+    } catch (error) {
+        backgroundSelect.innerHTML = `<option>Failed to load backgrounds</option>`;
+    }
+}
+
+async function populateAlignments() {
+    try {
+        const response = await fetch('/api/dnd/alignments');
+        const data = await response.json();
+        alignmentSelect.innerHTML = '<option value="">-- Select an Alignment --</option>';
+        data.results.forEach(alignment => {
+            const option = document.createElement('option');
+            option.value = alignment.id;
+            option.textContent = alignment.name;
+            alignmentSelect.appendChild(option);
+        });
+    } catch (error) {
+        alignmentSelect.innerHTML = `<option>Failed to load alignments</option>`;
     }
 }
 
@@ -266,15 +252,12 @@ rollSubmitBtn.addEventListener('click', () => {
 });
 
 creatorBtn.addEventListener('click', () => {
-    const token = localStorage.getItem('dnd_token');
     mainMenu.classList.add('hidden');
-    if (token) {
-        creatorWizard.classList.remove('hidden');
-        populateRaces();
-        populateClasses();
-    } else {
-        loginScreen.classList.remove('hidden');
-    }
+    creatorWizard.classList.remove('hidden');
+    populateRaces();
+    populateClasses();
+    populateBackgrounds();
+    populateAlignments();
 });
 
 adventureBtn.addEventListener('click', () => {
